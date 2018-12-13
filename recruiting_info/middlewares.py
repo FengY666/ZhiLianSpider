@@ -141,13 +141,16 @@ class SeleniumMiddleware(object):
                 # target = self.browser.find_elements_by_id('homeAlertMask')
                 # self.browser.execute_script("arguments[0].scrollIntoView();",target)
                 time.sleep(1.5)
+                #页面滑动到下面,具体滑动多少,可以修改scrollTop
                 js = "var q=document.documentElement.scrollTop=8500"
                 self.browser.execute_script(js)
+                #等待下一页可点击
                 # self.wait.until(
                 #     EC.element_to_be_clickable((By.CSS_SELECTOR, '#pagination_content > div > button:nth-child(7)')))
                 time.sleep(1.5)
                 # self.logger.info(self.browser.page_source)
                 text = self.browser.page_source
+                #最后一页请求过后关闭webdrive
                 if request.meta.get('page') == 3199:
                     self.browser.quit()
                 return HtmlResponse(url=request.url, body=text, request=request, encoding='utf-8', status=200)
